@@ -1,0 +1,10 @@
+{
+  "logo": { "color": { "1": "green", "2": "bright_green" } },
+  "display": { "color": { "keys": "green", "title": "bright_green" } },
+  "modules": [
+    "title", "separator", "os", "host", "kernel", "uptime", "packages",
+    "shell", "display", "de", "wm", "terminal", "terminalfont",
+    "cpu", "gpu", "memory", "disk", "localip", "battery", "locale",
+    "break", "colors"
+  ]
+}

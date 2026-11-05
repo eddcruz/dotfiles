@@ -1,0 +1,55 @@
+# Phosphor — Starship prompt
+"$schema" = 'https://starship.rs/config-schema.json'
+palette = "phosphor"
+add_newline = true
+format = """
+$directory$git_branch$git_status$python$nodejs$docker_context$cmd_duration
+$character"""
+
+[palettes.phosphor]
+fg     = "#b5d8bc"
+green  = "#3fb950"
+bright = "#7ee787"
+cyan   = "#56d4dd"
+amber  = "#d29922"
+red    = "#f85149"
+muted  = "#484f58"
+
+[directory]
+style = "bold bright"
+truncation_length = 3
+truncate_to_repo = true
+format = "[$path]($style)[$read_only]($read_only_style) "
+
+[git_branch]
+symbol = " "
+style = "green"
+format = "[on](muted) [$symbol$branch]($style) "
+
+[git_status]
+style = "amber"
+format = "([$all_status$ahead_behind]($style) )"
+
+[python]
+symbol = " "
+style = "cyan"
+format = "[via](muted) [$symbol$version( \\($virtualenv\\))]($style) "
+
+[nodejs]
+symbol = " "
+style = "green"
+format = "[via](muted) [$symbol$version]($style) "
+
+[docker_context]
+symbol = " "
+style = "cyan"
+format = "[$symbol$context]($style) "
+
+[cmd_duration]
+min_time = 2000
+style = "amber"
+format = "[took](muted) [$duration]($style) "
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
