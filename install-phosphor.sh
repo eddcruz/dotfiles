@@ -79,7 +79,7 @@ mkdir -p "$HOME/.config/fastfetch"
 cp "$DOT/phosphor/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 
 # -----------------------------------------------------------------------------
-step "5/5 Desktop: wallpaper, dark mode and green accent"
+step "5/5 Desktop: wallpaper, dark mode, green accent, clean app grid"
 WALL_DIR="$HOME/.local/share/backgrounds"
 mkdir -p "$WALL_DIR"
 cp "$DOT/phosphor/wallpaper/phosphor.png" "$WALL_DIR/phosphor.png"
@@ -88,6 +88,19 @@ gsettings set org.gnome.desktop.background picture-uri-dark "file://$WALL_DIR/ph
 gsettings set org.gnome.desktop.background picture-options 'zoom' || true
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' || true
 gsettings set org.gnome.desktop.interface accent-color 'green' 2>/dev/null || true
+
+# Hide redundant launchers from the app grid (apps stay installed).
+# A user copy in ~/.local/share/applications overrides the system one.
+# Some launchers (LibreOffice) already ship NoDisplay=false, so drop any
+# existing NoDisplay line before adding ours. Undo: delete the user copy.
+APPS_DIR="$HOME/.local/share/applications"
+mkdir -p "$APPS_DIR"
+for f in htop info libreoffice-startcenter libreoffice-math; do
+  src="/usr/share/applications/$f.desktop"
+  [[ -f "$src" ]] || continue
+  cp "$src" "$APPS_DIR/$f.desktop"
+  sed -i '/^NoDisplay=/d; /^\[Desktop Entry\]/a NoDisplay=true' "$APPS_DIR/$f.desktop"
+done
 
 # -----------------------------------------------------------------------------
 step "Done. Remaining (by hand):"
