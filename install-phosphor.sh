@@ -4,7 +4,8 @@
 #  Terminal (Ptyxis), Starship, btop, fastfetch, wallpaper and Nerd Font.
 #  VS Code is applied by hand (see phosphor/vscode-colors.jsonc).
 #
-#  Usage:  ./install-phosphor.sh      (from the dotfiles folder, no sudo)
+#  Usage:  ./install-phosphor.sh      (from the dotfiles folder, no sudo;
+#          it asks for your password to install Papirus icons)
 #  Idempotent: safe to run several times. Backs up what it replaces.
 # =============================================================================
 set -Eeuo pipefail
@@ -79,7 +80,7 @@ mkdir -p "$HOME/.config/fastfetch"
 cp "$DOT/phosphor/fastfetch/config.jsonc" "$HOME/.config/fastfetch/config.jsonc"
 
 # -----------------------------------------------------------------------------
-step "5/5 Desktop: wallpaper, dark mode, green accent, clean app grid"
+step "5/5 Desktop: wallpaper, accent, top bar, dock, Papirus icons, clean app grid"
 WALL_DIR="$HOME/.local/share/backgrounds"
 mkdir -p "$WALL_DIR"
 cp "$DOT/phosphor/wallpaper/phosphor.png" "$WALL_DIR/phosphor.png"
@@ -88,6 +89,34 @@ gsettings set org.gnome.desktop.background picture-uri-dark "file://$WALL_DIR/ph
 gsettings set org.gnome.desktop.background picture-options 'zoom' || true
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' || true
 gsettings set org.gnome.desktop.interface accent-color 'green' 2>/dev/null || true
+
+# Top bar: battery percentage and weekday
+gsettings set org.gnome.desktop.interface show-battery-percentage true || true
+gsettings set org.gnome.desktop.interface clock-show-weekday true || true
+
+# Dock: smaller icons, hide only when a window overlaps it
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false 2>/dev/null || true
+gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true 2>/dev/null || true
+gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 40 2>/dev/null || true
+
+# Icons: Papirus-Dark with green folders (Phosphor).
+# papirus-folders is not packaged for Ubuntu; it comes from the Papirus team's GitHub.
+# Package updates may reset folders to blue: re-run this script to fix.
+if ! dpkg -s papirus-icon-theme &>/dev/null; then
+  sudo apt-get install -y papirus-icon-theme || warn "Could not install papirus-icon-theme."
+fi
+if [[ -d /usr/share/icons/Papirus-Dark ]]; then
+  gsettings set org.gnome.desktop.interface icon-theme 'Papirus-Dark' || true
+  mkdir -p "$HOME/.local/bin"
+  if curl -fsSL -o "$HOME/.local/bin/papirus-folders" \
+       https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-folders/master/papirus-folders; then
+    chmod +x "$HOME/.local/bin/papirus-folders"
+    sudo "$HOME/.local/bin/papirus-folders" -C green --theme Papirus-Dark \
+      || warn "Could not set green folders."
+  else
+    warn "papirus-folders download failed; folders stay blue."
+  fi
+fi
 
 # Hide redundant launchers from the app grid (apps stay installed).
 # A user copy in ~/.local/share/applications overrides the system one.
