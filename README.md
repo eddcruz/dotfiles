@@ -11,7 +11,8 @@ A fresh install should be one command away from a working, private, good-looking
 ## Quick start (fresh install)
 
 ```bash
-git clone git@github.com:eddcruz/dotfiles.git ~/dev/dotfiles
+sudo apt install -y git
+git clone https://github.com/eddcruz/dotfiles.git ~/dev/dotfiles
 cd ~/dev/dotfiles
 ./setup.sh              # base system: privacy, tools, agents
 ./install-phosphor.sh   # look and feel
