@@ -111,7 +111,7 @@ install_pkgs \
   nethogs htop \
   python3 python3-pip python3-venv python-is-python3 \
   nodejs npm \
-  libreoffice-calc libreoffice-writer libreoffice-gtk4 \
+  libreoffice-calc libreoffice-writer libreoffice-gtk3 \
   libreoffice-l10n-es hunspell-es \
   gnome-tweaks gnome-shell-extension-manager
 
