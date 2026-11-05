@@ -1,8 +1,20 @@
+# Codex permission profiles
+#   revisor     (default) read-only: reviews and tests, never edits
+#   constructor           can write inside the project only
+# Switch for one session:  codex -c default_permissions=constructor
 default_permissions = "revisor"
 
 [permissions.revisor.filesystem]
 "/" = "read"
 ":project_roots" = { "." = "read", "**/.env" = "none", "**/.env.*" = "none" }
+"/home/eddcruz/.ssh" = "none"
+"/home/eddcruz/.gnupg" = "none"
+"/home/eddcruz/.claude" = "none"
+"/home/eddcruz/.gemini" = "none"
+
+[permissions.constructor.filesystem]
+"/" = "read"
+":project_roots" = { "." = "write", "**/.env" = "none", "**/.env.*" = "none" }
 "/home/eddcruz/.ssh" = "none"
 "/home/eddcruz/.gnupg" = "none"
 "/home/eddcruz/.claude" = "none"
