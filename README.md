@@ -2,7 +2,7 @@
 
 Reproducible setup for my personal laptop (HP EliteBook 840 G10 · Ubuntu 26.04 LTS): a bootstrap script, the **Phosphor** terminal look, and security rules for AI coding agents.
 
-![Phosphor wallpaper](phosphor/wallpaper/phosphor.png)
+![Phosphor terminal](docs/screenshot.png)
 
 ## Why
 
