@@ -1,12 +1,12 @@
 # dotfiles
 
-Reproducible setup for my personal laptop (HP EliteBook 840 G10 · Ubuntu 26.04 LTS): a bootstrap script, the **Phosphor** terminal look, and security rules for AI coding agents.
+Scripted setup for my personal laptop (HP EliteBook 840 G10 · Ubuntu 26.04 LTS): bootstrap scripts, the **Phosphor** terminal look, and security rules for AI coding agents.
 
 ![Phosphor terminal](docs/screenshot.png)
 
 ## Why
 
-A fresh install should be one command away from a working, private, good-looking machine — not an afternoon of copy-pasting commands from old notes.
+A fresh install should be a few commands away from a working, private, good-looking machine — not an afternoon of copy-pasting commands from old notes.
 
 ## Quick start (fresh install)
 
@@ -18,14 +18,15 @@ cd ~/dev/dotfiles
 ./install-phosphor.sh   # look and feel
 ```
 
-Then restore the agent security rules:
+Then install the agent security rules:
 
 ```bash
-cp agents/claude-settings.json ~/.claude/settings.json
-mkdir -p ~/.codex && cp agents/codex-config.toml ~/.codex/config.toml
+./install-agents.sh     # Claude Code + Codex, paths adapted to your user
 ```
 
 Antigravity (Gemini) is configured by hand: see `agents/antigravity-rules.md`.
+
+VS Code extensions are not included: use Settings Sync or your own list.
 
 > **Privacy tip:** when `setup.sh` asks for your Git email, use your GitHub noreply address
 > (github.com/settings/emails) so your real email never lands in public commits.
@@ -37,6 +38,7 @@ Antigravity (Gemini) is configured by hand: see `agents/antigravity-rules.md`.
 | `setup.sh` | 10-step base install: no Snap, masked telemetry, firewall, Brave, VS Code, Docker, LibreOffice, Zsh, Claude Code, Codex |
 | `install-phosphor.sh` | Nerd Font, terminal palette, Starship prompt, btop, fastfetch, wallpaper, and a clean desktop: Papirus icons with green folders, auto-hiding dock, battery % and weekday in the top bar, redundant launchers hidden |
 | `phosphor/` | Theme files for each tool |
+| `install-agents.sh` | Installs the Claude Code and Codex rules, adapting paths to your home folder |
 | `agents/` | Security rules for AI coding agents: block reads of `~/.ssh`, `.env` files and other agents' credentials |
 
 ## AI agent security
@@ -67,6 +69,20 @@ Some settings are personal or need a GUI, so they stay manual:
 4. **Fingerprint (optional):** unlock only; `sudo` keeps asking for the password. At boot use the password so the GNOME keyring unlocks.
 5. **Firmware:** `fwupdmgr refresh` then `fwupdmgr get-updates` as separate commands, on AC power.
 
+## Adapting it to your machine
+
+This is my setup, built for my laptop, but most of it is reusable:
+
+| Part | For someone else |
+|---|---|
+| `agents/` rules + the decoy/control test | **Use as-is.** `install-agents.sh` adapts the paths to your user |
+| Phosphor theme (`phosphor/`, `install-phosphor.sh`) | **Reuse.** Works on any GNOME desktop with Ptyxis |
+| `setup.sh` | **Review first.** It removes Snap and masks telemetry: read it before running |
+| Language, formats, keyboard | **Change** to your own (see manual steps above) |
+| Firmware and fingerprint notes | **HP EliteBook only** |
+
+Tested on Ubuntu 26.04 LTS with GNOME. Fork it and edit freely.
+
 ## Lessons learned
 
 Things that broke once, so the scripts now avoid them:
@@ -92,6 +108,6 @@ Things that broke once, so the scripts now avoid them:
 | Amber | `#d29922` |
 | Red | `#f85149` |
 
-## Repo rule
+## Security
 
-No secrets, ever: no keys, tokens, passwords or `.env` files.
+This repo never contains secrets (keys, tokens, passwords or `.env` files). `.gitignore` blocks them, GitHub push protection is on, and commits use a noreply email.

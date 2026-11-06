@@ -2,23 +2,24 @@
 #   revisor     (default) read-only: reviews and tests, never edits
 #   constructor           can write inside the project only
 # Switch for one session:  codex -c default_permissions=constructor
+# __HOME__ is replaced with your home folder by install-agents.sh
 default_permissions = "revisor"
 
 [permissions.revisor.filesystem]
 "/" = "read"
 ":project_roots" = { "." = "read", "**/.env" = "none", "**/.env.*" = "none" }
-"/home/eddcruz/.ssh" = "none"
-"/home/eddcruz/.gnupg" = "none"
-"/home/eddcruz/.claude" = "none"
-"/home/eddcruz/.gemini" = "none"
+"__HOME__/.ssh" = "none"
+"__HOME__/.gnupg" = "none"
+"__HOME__/.claude" = "none"
+"__HOME__/.gemini" = "none"
 
 [permissions.constructor.filesystem]
 "/" = "read"
 ":project_roots" = { "." = "write", "**/.env" = "none", "**/.env.*" = "none" }
-"/home/eddcruz/.ssh" = "none"
-"/home/eddcruz/.gnupg" = "none"
-"/home/eddcruz/.claude" = "none"
-"/home/eddcruz/.gemini" = "none"
+"__HOME__/.ssh" = "none"
+"__HOME__/.gnupg" = "none"
+"__HOME__/.claude" = "none"
+"__HOME__/.gemini" = "none"
 
 [tui]
 screen_reader_detection_done = true

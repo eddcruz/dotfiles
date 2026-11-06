@@ -258,7 +258,7 @@ if ! command -v codex &>/dev/null && command -v npm &>/dev/null; then
   npm install -g @openai/codex --prefix "$HOME/.local"
 fi
 
-# Agent security rules are kept in agents/ and copied by hand (see README).
+# Agent security rules are installed separately: ./install-agents.sh
 
 # =============================================================================
 # BASIC DESKTOP SETTINGS
@@ -286,8 +286,8 @@ $(cat "$HOME/.ssh/id_ed25519.pub")
 
   4. Settings → Region & Language → Formats: pick your region.
 
-  5. Agent security: copy the files in agents/ (see README) and verify with a
-     test — ask each agent to read a decoy file in ~/.ssh. It must refuse.
+  5. Agent security: run ./install-agents.sh and verify with its decoy test.
+     Antigravity (Gemini) is set by hand: see agents/antigravity-rules.md.
 
   6. Apply the look:  ./install-phosphor.sh
 
